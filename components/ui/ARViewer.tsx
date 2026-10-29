@@ -111,23 +111,13 @@ export default function ARViewer({ modelUrl, iosModelUrl, dishName }: ARViewerPr
           <RotateCcw size={16} />
         </button>
 
-        {iosModelUrl ? (
-          <a
-            href={iosModelUrl}
-            rel="ar"
+        {modelUrl && (
+          <button
+            onClick={() => (viewerRef.current as any)?.activateAR?.()}
             className="flex items-center gap-2 px-3 py-2 rounded-xl backdrop-blur border transition-all text-sm font-medium bg-orange-500 border-orange-400 text-white"
           >
-            {/* iOS Quick Look requiere img como primer hijo del anchor */}
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
-              alt="" style={{ position: 'absolute', width: 0, height: 0, opacity: 0 }} />
             <Smartphone size={16} />
             Ver en AR
-          </a>
-        ) : (
-          <button disabled className="flex items-center gap-2 px-3 py-2 rounded-xl bg-slate-800/80 backdrop-blur border border-slate-600 text-slate-400 text-sm font-medium cursor-default">
-            <Smartphone size={16} />
-            AR en móvil
           </button>
         )}
       </div>
