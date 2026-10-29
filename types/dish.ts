@@ -5,7 +5,7 @@ export interface Dish {
   price: number;
   category: string;
   subcategory?: string;
-  modelUrl: string;
+  modelUrl?: string;
   iosModelUrl?: string;
   imageUrl: string;
   calories: number;
