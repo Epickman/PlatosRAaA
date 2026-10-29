@@ -12,7 +12,7 @@ interface ARViewerProps {
 export default function ARViewer({ modelUrl, iosModelUrl, dishName }: ARViewerProps) {
   const viewerRef = useRef<any>(null);
   const [ready, setReady] = useState(false);
-  const [modelLoaded, setModelLoaded] = useState(false);
+  const [modelLoaded, setModelLoaded] = useState(true); // no overlay, model-viewer maneja su propio estado
   const [modelError, setModelError] = useState(false);
 
   useEffect(() => {
