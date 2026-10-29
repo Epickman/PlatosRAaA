@@ -18,14 +18,18 @@ export default function ARViewer({ modelUrl, iosModelUrl, dishName }: ARViewerPr
   useEffect(() => {
     if (!modelUrl) { setReady(true); return; }
 
-    // Importar el paquete (solo corre en el browser, nunca en SSR)
-    import('@google/model-viewer')
-      .then(() => setReady(true))
-      .catch(() => {
-        // Si falla el import del paquete, mostramos error
-        setModelError(true);
-        setReady(true);
-      });
+    // Si ya está registrado (ej: navegación entre platos), habilitamos directo
+    if (customElements.get('model-viewer')) { setReady(true); return; }
+
+    // Inyectamos el script CDN manualmente — bypasea problemas de Next.js con módulos ES
+    const script = document.createElement('script');
+    script.type = 'module';
+    script.src = 'https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js';
+    script.onload = () => setReady(true);
+    script.onerror = () => { setModelError(true); setReady(true); };
+    document.head.appendChild(script);
+
+    return () => { document.head.removeChild(script); };
   }, [modelUrl]);
 
   useEffect(() => {
@@ -39,9 +43,7 @@ export default function ARViewer({ modelUrl, iosModelUrl, dishName }: ARViewerPr
     el.addEventListener('error', onError);
 
     // Si en 20s no cargó, mostramos error
-    const t = setTimeout(() => {
-      if (!modelLoaded) setModelError(true);
-    }, 20000);
+    const t = setTimeout(() => setModelError(true), 20000);
 
     return () => {
       el.removeEventListener('load', onLoad);
