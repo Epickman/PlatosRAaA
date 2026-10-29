@@ -83,10 +83,9 @@ export default function ARViewer({ modelUrl, iosModelUrl, dishName }: ARViewerPr
         <model-viewer
           ref={viewerRef}
           src={modelUrl}
-          {...(iosModelUrl ? { 'ios-src': iosModelUrl } : {})}
           alt={`Modelo 3D de ${dishName}`}
           ar
-          ar-modes="webxr scene-viewer quick-look"
+          ar-modes="webxr scene-viewer"
           camera-controls
           auto-rotate
           shadow-intensity="1"
