@@ -15,7 +15,9 @@ export default function ARViewer({ modelUrl, iosModelUrl, dishName }: ARViewerPr
   const [loadError, setLoadError] = useState(false);
   const [mounted, setMounted] = useState(false);
 
-  useEffect(() => { setMounted(true); }, []);
+  useEffect(() => {
+    import('@google/model-viewer').then(() => setMounted(true));
+  }, []);
 
   // ref callback: se ejecuta cuando model-viewer entra al DOM, captura el evento load sin race condition
   const setViewerRef = useCallback((el: HTMLElement | null) => {
