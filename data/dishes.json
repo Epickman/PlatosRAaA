@@ -80,7 +80,6 @@
     "description": "Pechuga de pollo marinada con especias de la casa, arroz con frijoles negros y ensalada fresca. Plato completo y nutritivo.",
     "price": 2400,
     "category": "Principales",
-    "modelUrl": "/models/chicken-plate.glb",
     "imageUrl": "/images/pollo-asado.jpg",
     "calories": 620,
     "prepTime": "20 min",
