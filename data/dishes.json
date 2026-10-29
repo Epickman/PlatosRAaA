@@ -6,7 +6,6 @@
     "price": 2800,
     "category": "Hamburguesas",
     "modelUrl": "/models/burger.glb",
-    "iosModelUrl": "/models/burger.usdz",
     "imageUrl": "/images/burger-clasica.jpg",
     "calories": 720,
     "prepTime": "15 min",
@@ -22,7 +21,6 @@
     "price": 3400,
     "category": "Hamburguesas",
     "modelUrl": "/models/burger.glb",
-    "iosModelUrl": "/models/burger.usdz",
     "imageUrl": "/images/burger-bbq.jpg",
     "calories": 950,
     "prepTime": "18 min",
@@ -75,6 +73,21 @@
     "ingredients": ["lechuga romana", "pollo", "croutones", "parmesano", "aderezo Caesar"],
     "available": true,
     "featured": false
+  },
+  {
+    "id": "9",
+    "name": "Pollo Asado",
+    "description": "Pechuga de pollo marinada con especias de la casa, arroz con frijoles negros y ensalada fresca. Plato completo y nutritivo.",
+    "price": 2400,
+    "category": "Principales",
+    "modelUrl": "/models/chicken-plate.glb",
+    "imageUrl": "/images/pollo-asado.jpg",
+    "calories": 620,
+    "prepTime": "20 min",
+    "allergens": [],
+    "ingredients": ["pechuga de pollo", "arroz", "frijoles negros", "especias", "ensalada"],
+    "available": true,
+    "featured": true
   },
   {
     "id": "6",
