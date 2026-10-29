@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { RotateCcw, Smartphone } from 'lucide-react';
 
 interface ARViewerProps {
@@ -10,51 +10,61 @@ interface ARViewerProps {
 }
 
 export default function ARViewer({ modelUrl, iosModelUrl, dishName }: ARViewerProps) {
-  const viewerRef = useRef<HTMLElement | null>(null);
-  const [isLoaded, setIsLoaded] = useState(!modelUrl);
-  const [loadError, setLoadError] = useState(false);
-  const [mounted, setMounted] = useState(false);
+  const viewerRef = useRef<any>(null);
+  const [ready, setReady] = useState(false);
+  const [modelLoaded, setModelLoaded] = useState(false);
+  const [modelError, setModelError] = useState(false);
 
   useEffect(() => {
-    import('@google/model-viewer').then(() => setMounted(true));
-  }, []);
+    if (!modelUrl) { setReady(true); return; }
 
-  // ref callback: se ejecuta cuando model-viewer entra al DOM, captura el evento load sin race condition
-  const setViewerRef = useCallback((el: HTMLElement | null) => {
-    viewerRef.current = el;
+    // Importar el paquete (solo corre en el browser, nunca en SSR)
+    import('@google/model-viewer')
+      .then(() => setReady(true))
+      .catch(() => {
+        // Si falla el import del paquete, mostramos error
+        setModelError(true);
+        setReady(true);
+      });
+  }, [modelUrl]);
+
+  useEffect(() => {
+    if (!ready || !modelUrl) return;
+    const el = viewerRef.current;
     if (!el) return;
-    const onLoad = () => setIsLoaded(true);
-    const onError = () => setLoadError(true);
-    (el as any).addEventListener('load', onLoad);
-    (el as any).addEventListener('error', onError);
-    const t = window.setTimeout(() => {
-      setIsLoaded(prev => { if (!prev) setLoadError(true); return prev; });
-    }, 15000);
-    return () => {
-      (el as any).removeEventListener('load', onLoad);
-      (el as any).removeEventListener('error', onError);
-      window.clearTimeout(t);
-    };
-  }, []);
 
-  const handleReset = () => {
-    const el = viewerRef.current as any;
-    if (el) el.resetTurntableRotation?.();
-  };
+    const onLoad = () => setModelLoaded(true);
+    const onError = () => setModelError(true);
+    el.addEventListener('load', onLoad);
+    el.addEventListener('error', onError);
+
+    // Si en 20s no cargó, mostramos error
+    const t = setTimeout(() => {
+      if (!modelLoaded) setModelError(true);
+    }, 20000);
+
+    return () => {
+      el.removeEventListener('load', onLoad);
+      el.removeEventListener('error', onError);
+      clearTimeout(t);
+    };
+  }, [ready, modelUrl]);
+
+  const showSpinner = modelUrl && ready && !modelLoaded && !modelError;
+  const showError   = modelError;
 
   return (
     <div
       className="relative w-full rounded-2xl overflow-hidden bg-gradient-to-br from-slate-900 to-slate-800 border border-slate-700"
       style={{ minHeight: '380px' }}
     >
-      {!isLoaded && (
+      {/* Overlay de carga / error */}
+      {(showSpinner || showError || !ready) && (
         <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-3 bg-slate-900">
-          {loadError ? (
+          {showError ? (
             <>
               <p className="text-slate-300 text-sm font-medium">No se pudo cargar el modelo</p>
-              <p className="text-slate-500 text-xs text-center px-4">
-                Verificá tu conexión a internet
-              </p>
+              <p className="text-slate-500 text-xs text-center px-4">Verificá tu conexión a internet</p>
             </>
           ) : (
             <>
@@ -65,10 +75,11 @@ export default function ARViewer({ modelUrl, iosModelUrl, dishName }: ARViewerPr
         </div>
       )}
 
-      {mounted && modelUrl && (
+      {/* model-viewer — solo renderiza cuando el custom element está registrado */}
+      {ready && modelUrl && (
         // @ts-ignore
         <model-viewer
-          ref={setViewerRef}
+          ref={viewerRef}
           src={modelUrl}
           {...(iosModelUrl ? { 'ios-src': iosModelUrl } : {})}
           alt={`Modelo 3D de ${dishName}`}
@@ -82,15 +93,16 @@ export default function ARViewer({ modelUrl, iosModelUrl, dishName }: ARViewerPr
         />
       )}
 
-      {mounted && !modelUrl && (
+      {ready && !modelUrl && (
         <div className="absolute inset-0 flex items-center justify-center">
           <p className="text-slate-500 text-sm">Sin modelo 3D disponible</p>
         </div>
       )}
 
+      {/* Controles */}
       <div className="absolute bottom-4 right-4 z-20 flex gap-2">
         <button
-          onClick={handleReset}
+          onClick={() => viewerRef.current?.resetTurntableRotation?.()}
           title="Reiniciar vista"
           className="p-2 rounded-xl bg-slate-800/80 backdrop-blur border border-slate-600 text-slate-300 hover:text-white hover:border-orange-500 transition-all"
         >
@@ -105,25 +117,20 @@ export default function ARViewer({ modelUrl, iosModelUrl, dishName }: ARViewerPr
           >
             {/* iOS Quick Look requiere img como primer hijo del anchor */}
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
-              alt=""
-              style={{ position: 'absolute', width: 0, height: 0, opacity: 0 }}
-            />
+            <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+              alt="" style={{ position: 'absolute', width: 0, height: 0, opacity: 0 }} />
             <Smartphone size={16} />
             Ver en AR
           </a>
         ) : (
-          <button
-            disabled
-            className="flex items-center gap-2 px-3 py-2 rounded-xl bg-slate-800/80 backdrop-blur border border-slate-600 text-slate-400 text-sm font-medium cursor-default"
-          >
+          <button disabled className="flex items-center gap-2 px-3 py-2 rounded-xl bg-slate-800/80 backdrop-blur border border-slate-600 text-slate-400 text-sm font-medium cursor-default">
             <Smartphone size={16} />
             AR en móvil
           </button>
         )}
       </div>
 
+      {/* Badge */}
       <div className="absolute top-4 left-4 z-20">
         <span className="px-2 py-1 rounded-lg bg-orange-500/20 border border-orange-500/40 text-orange-400 text-xs font-semibold tracking-wider">
           3D · AR
