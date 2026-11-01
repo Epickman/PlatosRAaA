@@ -5,14 +5,13 @@ import { motion } from 'framer-motion';
 import DishCard from '@/components/ui/DishCard';
 import type { Dish } from '@/types/dish';
 
-const CATEGORIES = ['Todos', 'Hamburguesas', 'Pizzas', 'Ensaladas', 'Acompañamientos', 'Postres', 'Bebidas'];
-
 interface MenuGridProps {
   dishes: Dish[];
 }
 
 export default function MenuGrid({ dishes }: MenuGridProps) {
   const [active, setActive] = useState('Todos');
+  const categories = ['Todos', ...new Set(dishes.map(d => d.category))];
 
   const filtered = active === 'Todos' ? dishes : dishes.filter(d => d.category === active);
 
@@ -20,7 +19,7 @@ export default function MenuGrid({ dishes }: MenuGridProps) {
     <section className="py-12 px-4 max-w-6xl mx-auto">
       {/* Filtros */}
       <div className="flex gap-2 overflow-x-auto pb-4 mb-8 scrollbar-hide">
-        {CATEGORIES.map(cat => (
+        {categories.map(cat => (
           <button
             key={cat}
             onClick={() => setActive(cat)}

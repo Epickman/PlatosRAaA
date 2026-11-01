@@ -1,13 +1,12 @@
-import type { ModelViewerElement } from '@google/model-viewer';
+import type { DetailedHTMLProps, HTMLAttributes } from 'react';
 
-declare global {
+declare module 'react' {
   namespace JSX {
     interface IntrinsicElements {
-      'model-viewer': Partial<ModelViewerElement> & {
-        ref?: React.Ref<ModelViewerElement>;
-        class?: string;
-        style?: React.CSSProperties;
-        children?: React.ReactNode;
+      'model-viewer': DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement> & {
+        src?: string;
+        alt?: string;
+        ar?: boolean;
       };
     }
   }

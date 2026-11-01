@@ -6,12 +6,21 @@
     "price": 2800,
     "category": "Hamburguesas",
     "modelUrl": "/models/burger.glb",
-    "iosModelUrl": "https://github.com/Epickman/PlatosRAaA/releases/download/v1.0/burger.usdz",
-    "imageUrl": "/images/burger-clasica.jpg",
     "calories": 720,
     "prepTime": "15 min",
-    "allergens": ["gluten", "lácteos", "huevo"],
-    "ingredients": ["carne de res", "cheddar", "lechuga", "tomate", "cebolla", "pan brioche"],
+    "allergens": [
+      "gluten",
+      "lácteos",
+      "huevo"
+    ],
+    "ingredients": [
+      "carne de res",
+      "cheddar",
+      "lechuga",
+      "tomate",
+      "cebolla",
+      "pan brioche"
+    ],
     "available": true,
     "featured": true
   },
@@ -22,12 +31,20 @@
     "price": 3400,
     "category": "Hamburguesas",
     "modelUrl": "/models/burger.glb",
-    "iosModelUrl": "https://github.com/Epickman/PlatosRAaA/releases/download/v1.0/burger.usdz",
-    "imageUrl": "/images/burger-bbq.jpg",
     "calories": 950,
     "prepTime": "18 min",
-    "allergens": ["gluten", "lácteos", "huevo"],
-    "ingredients": ["carne de res", "bacon", "gouda ahumado", "pepinillos", "salsa BBQ"],
+    "allergens": [
+      "gluten",
+      "lácteos",
+      "huevo"
+    ],
+    "ingredients": [
+      "carne de res",
+      "bacon",
+      "gouda ahumado",
+      "pepinillos",
+      "salsa BBQ"
+    ],
     "available": true,
     "featured": false
   },
@@ -38,11 +55,18 @@
     "price": 2200,
     "category": "Pizzas",
     "modelUrl": "https://modelviewer.dev/shared-assets/models/Astronaut.glb",
-    "imageUrl": "/images/pizza-margarita.jpg",
     "calories": 580,
     "prepTime": "20 min",
-    "allergens": ["gluten", "lácteos"],
-    "ingredients": ["tomate", "mozzarella", "albahaca", "aceite de oliva"],
+    "allergens": [
+      "gluten",
+      "lácteos"
+    ],
+    "ingredients": [
+      "tomate",
+      "mozzarella",
+      "albahaca",
+      "aceite de oliva"
+    ],
     "available": true,
     "featured": true
   },
@@ -53,11 +77,21 @@
     "price": 2800,
     "category": "Pizzas",
     "modelUrl": "https://modelviewer.dev/shared-assets/models/Astronaut.glb",
-    "imageUrl": "/images/pizza-4q.jpg",
     "calories": 720,
     "prepTime": "22 min",
-    "allergens": ["gluten", "lácteos", "frutos secos"],
-    "ingredients": ["mozzarella", "gorgonzola", "parmesano", "brie", "miel", "nueces"],
+    "allergens": [
+      "gluten",
+      "lácteos",
+      "frutos secos"
+    ],
+    "ingredients": [
+      "mozzarella",
+      "gorgonzola",
+      "parmesano",
+      "brie",
+      "miel",
+      "nueces"
+    ],
     "available": true,
     "featured": false
   },
@@ -68,11 +102,20 @@
     "price": 1800,
     "category": "Ensaladas",
     "modelUrl": "https://modelviewer.dev/shared-assets/models/Astronaut.glb",
-    "imageUrl": "/images/caesar.jpg",
     "calories": 380,
     "prepTime": "10 min",
-    "allergens": ["gluten", "lácteos", "pescado"],
-    "ingredients": ["lechuga romana", "pollo", "croutones", "parmesano", "aderezo Caesar"],
+    "allergens": [
+      "gluten",
+      "lácteos",
+      "pescado"
+    ],
+    "ingredients": [
+      "lechuga romana",
+      "pollo",
+      "croutones",
+      "parmesano",
+      "aderezo Caesar"
+    ],
     "available": true,
     "featured": false
   },
@@ -82,13 +125,18 @@
     "description": "Pechuga de pollo marinada con especias de la casa, arroz con frijoles negros y ensalada fresca. Plato completo y nutritivo.",
     "price": 2400,
     "category": "Principales",
-    "modelUrl": "/models/chicken-plate.glb",
-    "iosModelUrl": "https://github.com/Epickman/PlatosRAaA/releases/download/v1.0/chicken-plate.usdz",
+    "modelUrl": "/models/pollo-asado.glb",
     "imageUrl": "/images/pollo-asado.jpg",
     "calories": 620,
     "prepTime": "20 min",
     "allergens": [],
-    "ingredients": ["pechuga de pollo", "arroz", "frijoles negros", "especias", "ensalada"],
+    "ingredients": [
+      "pechuga de pollo",
+      "arroz",
+      "frijoles negros",
+      "especias",
+      "ensalada"
+    ],
     "available": true,
     "featured": true
   },
@@ -99,11 +147,17 @@
     "price": 900,
     "category": "Acompañamientos",
     "modelUrl": "https://modelviewer.dev/shared-assets/models/Astronaut.glb",
-    "imageUrl": "/images/papas.jpg",
     "calories": 420,
     "prepTime": "8 min",
-    "allergens": ["gluten"],
-    "ingredients": ["papa", "aceite de girasol", "sal gruesa", "especias"],
+    "allergens": [
+      "gluten"
+    ],
+    "ingredients": [
+      "papa",
+      "aceite de girasol",
+      "sal gruesa",
+      "especias"
+    ],
     "available": true,
     "featured": false
   },
@@ -114,11 +168,21 @@
     "price": 1200,
     "category": "Postres",
     "modelUrl": "https://modelviewer.dev/shared-assets/models/Astronaut.glb",
-    "imageUrl": "/images/brownie.jpg",
     "calories": 560,
     "prepTime": "5 min",
-    "allergens": ["gluten", "lácteos", "huevo"],
-    "ingredients": ["chocolate 70%", "manteca", "huevo", "harina", "helado de vainilla", "caramelo"],
+    "allergens": [
+      "gluten",
+      "lácteos",
+      "huevo"
+    ],
+    "ingredients": [
+      "chocolate 70%",
+      "manteca",
+      "huevo",
+      "harina",
+      "helado de vainilla",
+      "caramelo"
+    ],
     "available": true,
     "featured": true
   },
@@ -129,12 +193,106 @@
     "price": 650,
     "category": "Bebidas",
     "modelUrl": "https://modelviewer.dev/shared-assets/models/Astronaut.glb",
-    "imageUrl": "/images/limonada.jpg",
     "calories": 85,
     "prepTime": "3 min",
     "allergens": [],
-    "ingredients": ["limón", "agua con gas", "menta", "azúcar de caña"],
+    "ingredients": [
+      "limón",
+      "agua con gas",
+      "menta",
+      "azúcar de caña"
+    ],
     "available": true,
     "featured": false
+  },
+  {
+    "id": "entradas-01-burrata",
+    "name": "Burrata con jamón crudo",
+    "description": "Burrata con jamón crudo, tomate asado, rúcula y aceite de albahaca",
+    "category": "Entradas",
+    "modelUrl": "/models/burrata-tomates.glb",
+    "imageUrl": "/images/menu/entradas-01-burrata.webp",
+    "available": true
+  },
+  {
+    "id": "entradas-02-burrata",
+    "name": "Burrata con caponata siciliana",
+    "description": "Burrata con caponata siciliana y tosta di focaccia, con reducción de balsámico",
+    "category": "Entradas",
+    "modelUrl": "/models/burrata-tomates.glb",
+    "imageUrl": "/images/menu/entradas-02-burrata.webp",
+    "available": true
+  },
+  {
+    "id": "entradas-07-salmon-sous-vide",
+    "name": "Salmón sous vide",
+    "description": "Salmón sous vide, papas confitadas, remolachas asadas, yogurt, limón y sésamo",
+    "category": "Entradas",
+    "modelUrl": "/models/salmon-esparragos.glb",
+    "imageUrl": "/images/menu/entradas-07-salmon-sous-vide.webp",
+    "available": true
+  },
+  {
+    "id": "principales-05-ojo-de-bife-a-baja-temperatura",
+    "name": "Ojo de bife a baja temperatura",
+    "description": "Ojo de bife a baja temperatura sobre cremoso de choclo, con ensalada de pico de gallo y aceite de cilantro",
+    "category": "Principales",
+    "modelUrl": "/models/ojo-de-bife.glb",
+    "imageUrl": "/images/menu/principales-05-ojo-de-bife-a-baja-temperatura.webp",
+    "available": true
+  },
+  {
+    "id": "principales-09-carne-o-ave-bondiola",
+    "name": "Carne o ave/bondiola con salsa champignon",
+    "description": "Carne o ave/bondiola con salsa champignon, gratín de papas y ratatouille",
+    "category": "Principales",
+    "modelUrl": "/models/pollo-asado.glb",
+    "imageUrl": "/images/menu/principales-09-carne-o-ave-bondiola.webp",
+    "available": true
+  },
+  {
+    "id": "principales-10-carne-o-ave-bondiola",
+    "name": "Carne o ave/bondiola con salsa ciboulette",
+    "description": "Carne o ave/bondiola con salsa ciboulette, puré de papas al limón y zanahorias glaseadas",
+    "category": "Principales",
+    "modelUrl": "/models/pollo-asado.glb",
+    "imageUrl": "/images/menu/principales-10-carne-o-ave-bondiola.webp",
+    "available": true
+  },
+  {
+    "id": "principales-11-carne-o-ave-bondiola",
+    "name": "Carne o ave/bondiola con salsa parmesano",
+    "description": "Carne o ave/bondiola con salsa parmesano, papines al ajillo y tomates asados",
+    "category": "Principales",
+    "modelUrl": "/models/pollo-asado.glb",
+    "imageUrl": "/images/menu/principales-11-carne-o-ave-bondiola.webp",
+    "available": true
+  },
+  {
+    "id": "postres-06-chocolate-en-texturas-y-citricos",
+    "name": "Chocolate en texturas y cítricos",
+    "description": "Chocolate en texturas y cítricos",
+    "category": "Postres",
+    "modelUrl": "/models/volcan-chocolate.glb",
+    "imageUrl": "/images/menu/postres-06-chocolate-en-texturas-y-citricos.webp",
+    "available": true
+  },
+  {
+    "id": "postres-16-mousse-tres-chocolates",
+    "name": "Mousse tres chocolates",
+    "description": "Mousse tres chocolates",
+    "category": "Postres",
+    "modelUrl": "/models/volcan-chocolate.glb",
+    "imageUrl": "/images/menu/postres-16-mousse-tres-chocolates.webp",
+    "available": true
+  },
+  {
+    "id": "postres-17-lingote-de-mousse-de-chocolate",
+    "name": "Lingote de mousse de chocolate",
+    "description": "Lingote de mousse de chocolate con frutillas y crema",
+    "category": "Postres",
+    "modelUrl": "/models/volcan-chocolate.glb",
+    "imageUrl": "/images/menu/postres-17-lingote-de-mousse-de-chocolate.webp",
+    "available": true
   }
 ]

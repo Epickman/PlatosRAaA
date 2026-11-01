@@ -33,7 +33,7 @@ export default function DishDetailClient({ dish, allDishes }: Props) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <ARViewer modelUrl={dish.modelUrl} iosModelUrl={dish.iosModelUrl} dishName={dish.name} />
+            <ARViewer key={dish.id} modelUrl={dish.modelUrl} iosAr={dish.iosAr} dishName={dish.name} />
             <p className="text-slate-500 text-xs text-center mt-3">
               Rotá el modelo · En móvil: tocá "Ver en AR" para proyectarlo en tu mesa
             </p>
@@ -53,38 +53,46 @@ export default function DishDetailClient({ dish, allDishes }: Props) {
             </div>
 
             {/* Stats */}
-            <div className="grid grid-cols-2 gap-3">
-              <div className="p-4 rounded-xl bg-slate-900 border border-slate-800">
-                <div className="flex items-center gap-2 text-slate-400 text-xs mb-1">
-                  <Clock size={12} /> Tiempo
-                </div>
-                <p className="text-white font-semibold">{dish.prepTime}</p>
+            {(dish.prepTime || dish.calories !== undefined) && (
+              <div className="grid grid-cols-2 gap-3">
+                {dish.prepTime && (
+                  <div className="p-4 rounded-xl bg-slate-900 border border-slate-800">
+                    <div className="flex items-center gap-2 text-slate-400 text-xs mb-1">
+                      <Clock size={12} /> Tiempo
+                    </div>
+                    <p className="text-white font-semibold">{dish.prepTime}</p>
+                  </div>
+                )}
+                {dish.calories !== undefined && (
+                  <div className="p-4 rounded-xl bg-slate-900 border border-slate-800">
+                    <div className="flex items-center gap-2 text-slate-400 text-xs mb-1">
+                      <Flame size={12} /> Calorías
+                    </div>
+                    <p className="text-white font-semibold">{dish.calories} kcal</p>
+                  </div>
+                )}
               </div>
-              <div className="p-4 rounded-xl bg-slate-900 border border-slate-800">
-                <div className="flex items-center gap-2 text-slate-400 text-xs mb-1">
-                  <Flame size={12} /> Calorías
-                </div>
-                <p className="text-white font-semibold">{dish.calories} kcal</p>
-              </div>
-            </div>
+            )}
 
             {/* Ingredientes */}
-            <div className="p-4 rounded-xl bg-slate-900 border border-slate-800">
-              <h3 className="text-slate-400 text-xs font-medium mb-3 uppercase tracking-wider">Ingredientes</h3>
-              <div className="flex flex-wrap gap-2">
-                {dish.ingredients.map(ing => (
-                  <span
-                    key={ing}
-                    className="px-2 py-1 rounded-lg bg-slate-800 border border-slate-700 text-slate-300 text-xs capitalize"
-                  >
-                    {ing}
-                  </span>
-                ))}
+            {dish.ingredients && dish.ingredients.length > 0 && (
+              <div className="p-4 rounded-xl bg-slate-900 border border-slate-800">
+                <h3 className="text-slate-400 text-xs font-medium mb-3 uppercase tracking-wider">Ingredientes</h3>
+                <div className="flex flex-wrap gap-2">
+                  {dish.ingredients.map(ing => (
+                    <span
+                      key={ing}
+                      className="px-2 py-1 rounded-lg bg-slate-800 border border-slate-700 text-slate-300 text-xs capitalize"
+                    >
+                      {ing}
+                    </span>
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
 
             {/* Alérgenos */}
-            {dish.allergens.length > 0 && (
+            {dish.allergens && dish.allergens.length > 0 && (
               <div className="flex items-start gap-2 p-3 rounded-xl bg-amber-500/10 border border-amber-500/30">
                 <AlertTriangle size={14} className="text-amber-400 flex-shrink-0 mt-0.5" />
                 <div>
@@ -95,18 +103,20 @@ export default function DishDetailClient({ dish, allDishes }: Props) {
             )}
 
             {/* Precio + CTA */}
-            <div className="flex items-center justify-between pt-2">
-              <div>
-                <p className="text-slate-500 text-xs mb-1">Precio</p>
-                <p className="text-4xl font-extrabold text-white">
-                  ${dish.price.toLocaleString('es-AR')}
-                </p>
+            {dish.price !== undefined && (
+              <div className="flex items-center justify-between pt-2">
+                <div>
+                  <p className="text-slate-500 text-xs mb-1">Precio</p>
+                  <p className="text-4xl font-extrabold text-white">
+                    ${dish.price.toLocaleString('es-AR')}
+                  </p>
+                </div>
+                <button className="flex items-center gap-2 px-5 py-3 rounded-xl bg-orange-500 text-white font-semibold hover:bg-orange-600 transition-colors">
+                  <ShoppingCart size={16} />
+                  Agregar
+                </button>
               </div>
-              <button className="flex items-center gap-2 px-5 py-3 rounded-xl bg-orange-500 text-white font-semibold hover:bg-orange-600 transition-colors">
-                <ShoppingCart size={16} />
-                Agregar
-              </button>
-            </div>
+            )}
           </motion.div>
         </div>
 

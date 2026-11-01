@@ -3,33 +3,36 @@
 import { useEffect, useRef, useState } from 'react';
 import { RotateCcw, Smartphone } from 'lucide-react';
 
+const MODEL_VIEWER_SRC = 'https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js';
+const LOAD_TIMEOUT_MS = 20000;
+
 interface ARViewerProps {
   modelUrl?: string;
-  iosModelUrl?: string;
+  /** false deja el modelo sin AR en iPhone, para los que pesan demasiado para Quick Look */
+  iosAr?: boolean;
   dishName: string;
 }
 
-export default function ARViewer({ modelUrl, iosModelUrl, dishName }: ARViewerProps) {
+export default function ARViewer({ modelUrl, iosAr = true, dishName }: ARViewerProps) {
   const viewerRef = useRef<any>(null);
   const [ready, setReady] = useState(false);
-  const [modelLoaded, setModelLoaded] = useState(true); // no overlay, model-viewer maneja su propio estado
+  const [modelLoaded, setModelLoaded] = useState(false);
   const [modelError, setModelError] = useState(false);
 
   useEffect(() => {
-    if (!modelUrl) { setReady(true); return; }
+    if (!modelUrl) return;
 
-    // Si ya está registrado (ej: navegación entre platos), habilitamos directo
-    if (customElements.get('model-viewer')) { setReady(true); return; }
+    if (!document.querySelector(`script[src="${MODEL_VIEWER_SRC}"]`)) {
+      const script = document.createElement('script');
+      script.type = 'module';
+      script.src = MODEL_VIEWER_SRC;
+      script.onerror = () => { setModelError(true); setReady(true); };
+      document.head.appendChild(script);
+    }
 
-    // Inyectamos el script CDN manualmente — bypasea problemas de Next.js con módulos ES
-    const script = document.createElement('script');
-    script.type = 'module';
-    script.src = 'https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js';
-    script.onload = () => setReady(true);
-    script.onerror = () => { setModelError(true); setReady(true); };
-    document.head.appendChild(script);
-
-    return () => { document.head.removeChild(script); };
+    let active = true;
+    customElements.whenDefined('model-viewer').then(() => { if (active) setReady(true); });
+    return () => { active = false; };
   }, [modelUrl]);
 
   useEffect(() => {
@@ -37,23 +40,21 @@ export default function ARViewer({ modelUrl, iosModelUrl, dishName }: ARViewerPr
     const el = viewerRef.current;
     if (!el) return;
 
-    const onLoad = () => setModelLoaded(true);
-    const onError = () => setModelError(true);
+    const timeout = setTimeout(() => setModelError(true), LOAD_TIMEOUT_MS);
+    const onLoad = () => { clearTimeout(timeout); setModelLoaded(true); };
+    const onError = () => { clearTimeout(timeout); setModelError(true); };
     el.addEventListener('load', onLoad);
     el.addEventListener('error', onError);
-
-    // Si en 20s no cargó, mostramos error
-    const t = setTimeout(() => setModelError(true), 20000);
+    if (el.loaded) onLoad();
 
     return () => {
       el.removeEventListener('load', onLoad);
       el.removeEventListener('error', onError);
-      clearTimeout(t);
+      clearTimeout(timeout);
     };
   }, [ready, modelUrl]);
 
-  const showSpinner = modelUrl && ready && !modelLoaded && !modelError;
-  const showError   = modelError;
+  const showSpinner = !!modelUrl && !modelLoaded && !modelError;
 
   return (
     <div
@@ -61,9 +62,9 @@ export default function ARViewer({ modelUrl, iosModelUrl, dishName }: ARViewerPr
       style={{ minHeight: '380px' }}
     >
       {/* Overlay de carga / error */}
-      {(showSpinner || showError || !ready) && (
+      {(showSpinner || modelError) && (
         <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-3 bg-slate-900">
-          {showError ? (
+          {modelError ? (
             <>
               <p className="text-slate-300 text-sm font-medium">No se pudo cargar el modelo</p>
               <p className="text-slate-500 text-xs text-center px-4">Verificá tu conexión a internet</p>
@@ -79,22 +80,34 @@ export default function ARViewer({ modelUrl, iosModelUrl, dishName }: ARViewerPr
 
       {/* model-viewer — solo renderiza cuando el custom element está registrado */}
       {ready && modelUrl && (
-        // @ts-ignore
         <model-viewer
           ref={viewerRef}
           src={modelUrl}
           alt={`Modelo 3D de ${dishName}`}
           ar
-          ar-modes="webxr scene-viewer"
+          ar-modes={iosAr ? 'webxr scene-viewer quick-look' : 'webxr scene-viewer'}
+          ar-scale="fixed"
+          ar-placement="floor"
           camera-controls
           auto-rotate
+          touch-action="pan-y"
           shadow-intensity="1"
           environment-image="neutral"
           style={{ width: '100%', height: '380px', background: 'transparent' }}
-        />
+        >
+          {/* model-viewer solo muestra este botón si el dispositivo puede abrir AR */}
+          <button
+            type="button"
+            slot="ar-button"
+            className="absolute bottom-4 left-4 flex items-center gap-2 px-3 py-2 rounded-xl backdrop-blur border transition-all text-sm font-medium bg-orange-500 border-orange-400 text-white"
+          >
+            <Smartphone size={16} />
+            Ver en AR
+          </button>
+        </model-viewer>
       )}
 
-      {ready && !modelUrl && (
+      {!modelUrl && (
         <div className="absolute inset-0 flex items-center justify-center">
           <p className="text-slate-500 text-sm">Sin modelo 3D disponible</p>
         </div>
@@ -109,16 +122,6 @@ export default function ARViewer({ modelUrl, iosModelUrl, dishName }: ARViewerPr
         >
           <RotateCcw size={16} />
         </button>
-
-        {modelUrl && (
-          <button
-            onClick={() => (viewerRef.current as any)?.activateAR?.()}
-            className="flex items-center gap-2 px-3 py-2 rounded-xl backdrop-blur border transition-all text-sm font-medium bg-orange-500 border-orange-400 text-white"
-          >
-            <Smartphone size={16} />
-            Ver en AR
-          </button>
-        )}
       </div>
 
       {/* Badge */}

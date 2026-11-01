@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Clock, Flame, Box } from 'lucide-react';
@@ -22,9 +23,19 @@ export default function DishCard({ dish, index }: DishCardProps) {
           {/* Imagen placeholder con gradiente */}
           <div className="relative h-48 bg-gradient-to-br from-slate-800 to-slate-900 flex items-center justify-center overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent z-10" />
-            <span className="text-6xl opacity-30 group-hover:opacity-50 transition-opacity">
-              {getCategoryEmoji(dish.category)}
-            </span>
+            {dish.imageUrl ? (
+              <Image
+                src={dish.imageUrl}
+                alt={dish.name}
+                fill
+                sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                className="object-cover"
+              />
+            ) : (
+              <span className="text-6xl opacity-30 group-hover:opacity-50 transition-opacity">
+                {getCategoryEmoji(dish.category)}
+              </span>
+            )}
 
             {dish.featured && (
               <span className="absolute top-3 left-3 z-20 px-2 py-0.5 rounded-md bg-orange-500 text-white text-xs font-semibold">
@@ -46,20 +57,28 @@ export default function DishCard({ dish, index }: DishCardProps) {
               {dish.description}
             </p>
 
-            <div className="flex items-center gap-3 text-xs text-slate-500 mb-3">
-              <span className="flex items-center gap-1">
-                <Clock size={12} /> {dish.prepTime}
-              </span>
-              <span className="flex items-center gap-1">
-                <Flame size={12} /> {dish.calories} kcal
-              </span>
-            </div>
+            {(dish.prepTime || dish.calories !== undefined) && (
+              <div className="flex items-center gap-3 text-xs text-slate-500 mb-3">
+                {dish.prepTime && (
+                  <span className="flex items-center gap-1">
+                    <Clock size={12} /> {dish.prepTime}
+                  </span>
+                )}
+                {dish.calories !== undefined && (
+                  <span className="flex items-center gap-1">
+                    <Flame size={12} /> {dish.calories} kcal
+                  </span>
+                )}
+              </div>
+            )}
 
             <div className="flex items-center justify-between">
-              <span className="text-2xl font-bold text-white">
-                ${dish.price.toLocaleString('es-AR')}
-              </span>
-              <span className="text-xs text-orange-400 font-medium opacity-0 group-hover:opacity-100 transition-opacity">
+              {dish.price !== undefined && (
+                <span className="text-2xl font-bold text-white">
+                  ${dish.price.toLocaleString('es-AR')}
+                </span>
+              )}
+              <span className="ml-auto text-xs text-orange-400 font-medium opacity-0 group-hover:opacity-100 transition-opacity">
                 Ver en 3D →
               </span>
             </div>

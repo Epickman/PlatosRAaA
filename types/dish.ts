@@ -2,16 +2,17 @@ export interface Dish {
   id: string;
   name: string;
   description: string;
-  price: number;
+  price?: number;
   category: string;
   subcategory?: string;
   modelUrl?: string;
-  iosModelUrl?: string;
-  imageUrl: string;
-  calories: number;
-  prepTime: string;
-  allergens: string[];
-  ingredients: string[];
+  /** false si el modelo es demasiado pesado para generar el USDZ en el iPhone */
+  iosAr?: boolean;
+  imageUrl?: string;
+  calories?: number;
+  prepTime?: string;
+  allergens?: string[];
+  ingredients?: string[];
   available: boolean;
   featured?: boolean;
 }
